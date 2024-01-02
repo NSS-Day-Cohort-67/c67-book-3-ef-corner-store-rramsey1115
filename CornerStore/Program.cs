@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using CornerStore.Models;
 using System.Reflection.Metadata.Ecma335;
+using System.Collections.Immutable;
+using Microsoft.AspNetCore.Components.Forms;
+using System.Text.RegularExpressions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -352,17 +355,53 @@ up all the Quantities of the OrderProducts in each group.
 Check for a query string param called "AMOUNT" that says how many products to return. Retrun 5 by default. 
 */
 // /produts/popular
-// app.MapGet("/api/products/popular", (CornerStoreDbContext db, int? amount) => {
-//     try
-//     {
-//         db.OrderProducts.GroupBy(op => op.ProductId)
-//     }
-//     catch (Exception ex)
-//     {
-//         return Results.BadRequest($"Bad data request: {ex}");
-//     }
+app.MapGet("/api/products/popular", (CornerStoreDbContext db, int? amount) => {
+    try
+    {
+        // generate list of OrderProducts, including Product with Category
+        var OPs = db.OrderProducts
+        .Include(p => p.Product).ThenInclude(prod => prod.Category)
+        .ToList();
 
-// });
+        // Group by ProductId & sort by descending count
+        var groupedOPs = OPs.GroupBy(op => op.ProductId)
+        .Select(group => new
+        {
+            ProductId = group.Key,
+            QuantitySum = group.Sum(op => op.Quantity)
+        })
+        .OrderByDescending(group => group.QuantitySum)
+        .Take(amount ?? 5)
+        .ToList();
+
+        var arr = new List<Product>();
+        foreach(var gop in groupedOPs)
+        {
+            var found = db.Products.SingleOrDefault(p => p.Id == gop.ProductId);
+            arr.Add(found);
+        }
+
+        return Results.Ok(arr.Select(a => new ProductDTO
+        {
+            Id = a.Id,
+            ProductName = a.ProductName,
+            Price = a.Price,
+            Brand = a.Brand,
+            CategoryId = a.CategoryId,
+            Category = new CategoryDTO
+            {
+                Id = a.Category.Id,
+                CategoryName = a.Category.CategoryName
+            }
+        }));
+
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data request: {ex}");
+    }
+
+});
 
 app.Run();
 
