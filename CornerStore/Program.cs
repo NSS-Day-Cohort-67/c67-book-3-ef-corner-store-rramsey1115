@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
+using CornerStore.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +36,18 @@ app.UseHttpsRedirection();
 
 // Cashiers ------------------------------------------
 // POST/add a cashier
-
+app.MapPost("/api/cashiers", (CornerStoreDbContext db, Cashier cashier) => {
+    try
+    {
+    db.Cashiers.Add(cashier);
+    db.SaveChanges();
+    return Results.Created($"api/cashiers/{cashier.Id}", cashier);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data submitted: {ex}");
+    }
+});
 
 // GET a cashier by id - with orders and orders' products
 app.MapGet("/api/cashiers/{id}", (CornerStoreDbContext db, int id) =>
@@ -90,17 +102,84 @@ app.MapGet("/api/cashiers/{id}", (CornerStoreDbContext db, int id) =>
 });
 
 
-
 // Products -----------------------------------------
-// GET all products - with categories - if 'searc' query param is present, return only products whose names
+// GET all products - with categories - if 'search' query param is present, return only products whose names
 // include the 'search' value (ignore case)
+app.MapGet("/api/products", (CornerStoreDbContext db, string? search) => {
+    try
+    {
+        var allProducts =db.Products
+        .Include(p => p.Category)
+        .OrderBy(p => p.Id)
+        .Select(p => new ProductDTO
+        {
+            Id = p.Id,
+            ProductName = p.ProductName,
+            Price = p.Price,
+            Brand = p.Brand,
+            CategoryId = p.CategoryId,
+            Category = new CategoryDTO
+            {
+                Id = p.Category.Id,
+                CategoryName = p.Category.CategoryName
+            }
+        }).ToList();
 
+        if(search == null)
+        {
+            return Results.Ok(allProducts);
+        }
+
+        var searchedProducts = allProducts.Where(ap => ap.ProductName.ToLower().Contains(search.ToLower())).ToList();
+        if(searchedProducts.Count() < 1)
+        {
+            return Results.NotFound("No names match search parameters");
+        }
+        return Results.Ok(searchedProducts);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad Request: {ex}");
+    }
+});
 
 // POST/add a product
-
+app.MapPost("/api/products", (CornerStoreDbContext db, Product product) => {
+    try
+    {
+    db.Products.Add(product);
+    db.SaveChanges();
+    return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data: {ex}");
+    }
+});
 
 // PUT/update a product
+app.MapPut("/api/products", (CornerStoreDbContext db, Product productObj) => {
+    try
+    {
+        var foundP = db.Products.SingleOrDefault(p => p.Id == productObj.Id);
+        if (foundP == null)
+        {
+            return Results.BadRequest("No product found with given id");
+        }
 
+        foundP.ProductName = productObj.ProductName;
+        foundP.Price = productObj.Price;
+        foundP.Brand = productObj.Brand;
+        foundP.CategoryId = productObj.CategoryId;
+
+        db.SaveChanges();
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad data sent: {ex}");
+    }
+});
 
 
 
