@@ -352,7 +352,17 @@ up all the Quantities of the OrderProducts in each group.
 Check for a query string param called "AMOUNT" that says how many products to return. Retrun 5 by default. 
 */
 // /produts/popular
+// app.MapGet("/api/products/popular", (CornerStoreDbContext db, int? amount) => {
+//     try
+//     {
+//         db.OrderProducts.GroupBy(op => op.ProductId)
+//     }
+//     catch (Exception ex)
+//     {
+//         return Results.BadRequest($"Bad data request: {ex}");
+//     }
 
+// });
 
 app.Run();
 

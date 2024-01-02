@@ -11,7 +11,7 @@ public class TestCornerStore
     {
         var app = new CornerStoreApp();
         var client = app.CreateClient();
-        Cashier cashier = await client.GetFromJsonAsync<Cashier>("/cashiers/1");
+        CashierDTO cashier = await client.GetFromJsonAsync<CashierDTO>("/cashiers/1");
         // test existing cashier and orders
         Assert.Equal("Amy", cashier.FirstName);
         Assert.Equal("Simpson", cashier.LastName);
@@ -83,7 +83,7 @@ public class TestCornerStore
     {
         var app = new CornerStoreApp();
         var client = app.CreateClient();
-        var order2 = await client.GetFromJsonAsync<Order>("/orders/2");
+        var order2 = await client.GetFromJsonAsync<OrderDTO>("/orders/2");
 
         Assert.Equal(2, order2.Id);
         Assert.Equal(4, order2.OrderProducts.Count);
@@ -102,18 +102,18 @@ public class TestCornerStore
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
 
         //create
-        var createResponse = await client.PostAsJsonAsync("/orders", new Order
+        var createResponse = await client.PostAsJsonAsync("/orders", new OrderDTO
         {
             CashierId = 2,
             PaidOnDate = new DateTime(2023, 7, 24),
             OrderProducts = new()
              {
-                new OrderProduct {ProductId = 1, Quantity = 2}
+                new OrderProductDTO {ProductId = 1, Quantity = 2}
              }
         });
         createResponse.EnsureSuccessStatusCode();
         Assert.Equal(HttpStatusCode.Created, createResponse.StatusCode);
-        var content = await createResponse.Content.ReadFromJsonAsync<Order>();
+        var content = await createResponse.Content.ReadFromJsonAsync<OrderDTO>();
         Assert.Equal(5, content.Id);
         Assert.Equal("/orders/5", createResponse.Headers.Location.ToString());
         Assert.Equal(2.50M, content.Total);
