@@ -17,5 +17,5 @@ public class Order
             return res != null && res.Any() ? res.Sum() : (decimal?)0;
         }
     }
-    public DateOnly? PaidOnDate { get; set; }
+    public DateTime? PaidOnDate { get; set; }
 }

@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using CornerStore.Models;
+using System.Reflection.Metadata.Ecma335;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -239,8 +240,65 @@ app.MapGet("/api/orders/{id}", (CornerStoreDbContext db, int id) => {
 
 // GET all orders - check for query string param 'orderDate' that only returns orders from a particulary day
 // if not present, return all orders
-app.MapGet("/api/order", (CornerStoreDbContext db, DateOnly? orderDate) => {
-    
+app.MapGet("/api/orders", (CornerStoreDbContext db, DateTime? orderDate) => {
+    try
+    {
+        var allOrders = db.Orders
+        .OrderBy(o => o.Id)
+        .Include(o => o.Cashier)
+        .Include(o => o.OrderProducts).ThenInclude(op => op.Product).ThenInclude(p => p.Category)
+        .Select(o => new OrderDTO
+        {
+            Id = o.Id,
+            CashierId = o.CashierId,
+            Cashier = new CashierDTO
+            {
+                Id = o.Cashier.Id,
+                FirstName = o.Cashier.FirstName,
+                LastName = o.Cashier.LastName
+            },
+            PaidOnDate = o.PaidOnDate,
+            OrderProducts = o.OrderProducts.Select(orderP => new OrderProductDTO
+            {
+                Id = orderP.Id,
+                ProductId = orderP.ProductId,
+                Product = new ProductDTO
+                {
+                    Id = orderP.Product.Id,
+                    ProductName = orderP.Product.ProductName,
+                    Price = orderP.Product.Price,
+                    Brand = orderP.Product.Brand,
+                    CategoryId = orderP.Product.CategoryId,
+                    Category = new CategoryDTO
+                    {
+                        Id = orderP.Product.Category.Id,
+                        CategoryName = orderP.Product.Category.CategoryName
+                    }
+                },
+                OrderId = orderP.OrderId,
+                Quantity = orderP.Quantity
+            }).ToList()
+        }).ToList();
+
+        if(orderDate == null)
+        {
+            return Results.Ok(allOrders);
+        }
+
+        var filteredOrders = allOrders.Where(order => order.PaidOnDate == orderDate).ToList();
+
+        if(filteredOrders.Count == 0)
+        {
+            return Results.NotFound("No results matching DateTime query parameters");
+        }
+
+        return Results.Ok(filteredOrders);
+
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data: {ex}");
+    }
 });
 
 // DELETE an order by Id

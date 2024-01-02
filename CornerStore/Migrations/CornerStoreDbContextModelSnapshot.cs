@@ -101,8 +101,8 @@ namespace CornerStore.Migrations
                     b.Property<int>("CashierId")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly?>("PaidOnDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("PaidOnDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 
@@ -115,61 +115,61 @@ namespace CornerStore.Migrations
                         {
                             Id = 1,
                             CashierId = 1,
-                            PaidOnDate = new DateOnly(2023, 11, 11)
+                            PaidOnDate = new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
                             CashierId = 2,
-                            PaidOnDate = new DateOnly(2023, 11, 11)
+                            PaidOnDate = new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 3,
                             CashierId = 1,
-                            PaidOnDate = new DateOnly(2023, 11, 11)
+                            PaidOnDate = new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 4,
                             CashierId = 1,
-                            PaidOnDate = new DateOnly(2023, 11, 12)
+                            PaidOnDate = new DateTime(2023, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 5,
                             CashierId = 1,
-                            PaidOnDate = new DateOnly(2023, 11, 12)
+                            PaidOnDate = new DateTime(2023, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 6,
                             CashierId = 2,
-                            PaidOnDate = new DateOnly(2023, 11, 13)
+                            PaidOnDate = new DateTime(2023, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 7,
                             CashierId = 2,
-                            PaidOnDate = new DateOnly(2023, 11, 13)
+                            PaidOnDate = new DateTime(2023, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 8,
                             CashierId = 2,
-                            PaidOnDate = new DateOnly(2023, 11, 14)
+                            PaidOnDate = new DateTime(2023, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 9,
                             CashierId = 1,
-                            PaidOnDate = new DateOnly(2023, 11, 15)
+                            PaidOnDate = new DateTime(2023, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 10,
                             CashierId = 2,
-                            PaidOnDate = new DateOnly(2023, 11, 16)
+                            PaidOnDate = new DateTime(2023, 11, 16, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
