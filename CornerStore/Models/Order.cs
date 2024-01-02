@@ -10,12 +10,5 @@ public class Order
     public int CashierId { get; set; }
     public Cashier Cashier { get; set; }
     public List<OrderProduct> OrderProducts { get; set; }
-    public decimal? Total {
-        get
-        {
-            var res = OrderProducts.Select(p => p.Product.Price * p.Quantity );
-            return res != null && res.Any() ? res.Sum() : (decimal?)0;
-        }
-    }
     public DateTime? PaidOnDate { get; set; }
 }

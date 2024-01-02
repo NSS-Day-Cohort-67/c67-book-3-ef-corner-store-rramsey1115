@@ -323,7 +323,26 @@ app.MapDelete("/api/orders/{id}", (CornerStoreDbContext db, int id) => {
 });
 
 // POST create an order (with products!)
+app.MapPost("/api/orders", (CornerStoreDbContext db, Order order) => {
+    try
+    {
+        int id = db.Orders.Count() + 1;
+        foreach(OrderProduct op in order.OrderProducts)
+        {
+            op.OrderId = id;
+            db.OrderProducts.Add(op);
+        }
 
+        db.Orders.Add(order);
+        db.SaveChanges();
+
+        return Results.Created($"/api/orders/{order.Id}", order);
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad request: {ex}");
+    }
+});
 
 
 /* *~*~*~*~*~*~*~*~*~BONUS CHALLENGE FOR END~*~*~*~*~*~*~*~*~*~*~*~*~*
