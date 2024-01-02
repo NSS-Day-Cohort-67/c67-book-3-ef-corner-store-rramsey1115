@@ -54,13 +54,30 @@ app.UseHttpsRedirection();
 // PUT/update a product
 
 
-// Orders ---------------------------------------------
-// GET order by ID - with cashier, orderProducts, products with category
 
-// GET all orders - check for query string param 'orderDate' taht only returns orders from a particulary day
+
+// Orders ---------------------------------------------
+// GET order by Id - with cashier, orderProducts, products with category
+
+
+// GET all orders - check for query string param 'orderDate' that only returns orders from a particulary day
 // if not present, return all orders
 
 
+// DELETE an order by Id
+
+
+// POST create an order (with products!)
+
+
+
+/* *~*~*~*~*~*~*~*~*~BONUS CHALLENGE FOR END~*~*~*~*~*~*~*~*~*~*~*~*~*
+GET most popular products, determined by which products have been ordered the most times.
+HINT: this requires using GroupBy to group the OrderProducts by ProductId, then using SUM to add
+up all the Quantities of the OrderProducts in each group.
+Check for a query string param called "AMOUNT" that says how many products to return. Retrun 5 by default. 
+*/
+// /produts/popular
 
 
 app.Run();
