@@ -44,7 +44,7 @@ namespace CornerStore.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CashierId = table.Column<int>(type: "integer", nullable: false),
-                    PaidOnDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    PaidOnDate = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -130,16 +130,16 @@ namespace CornerStore.Migrations
                 columns: new[] { "Id", "CashierId", "PaidOnDate" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, 2, new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, 1, new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, 1, new DateTime(2023, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, 1, new DateTime(2023, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, 2, new DateTime(2023, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, 2, new DateTime(2023, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, 2, new DateTime(2023, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 9, 1, new DateTime(2023, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 10, 2, new DateTime(2023, 11, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) }
+                    { 1, 1, new DateOnly(2023, 11, 11) },
+                    { 2, 2, new DateOnly(2023, 11, 11) },
+                    { 3, 1, new DateOnly(2023, 11, 11) },
+                    { 4, 1, new DateOnly(2023, 11, 12) },
+                    { 5, 1, new DateOnly(2023, 11, 12) },
+                    { 6, 2, new DateOnly(2023, 11, 13) },
+                    { 7, 2, new DateOnly(2023, 11, 13) },
+                    { 8, 2, new DateOnly(2023, 11, 14) },
+                    { 9, 1, new DateOnly(2023, 11, 15) },
+                    { 10, 2, new DateOnly(2023, 11, 16) }
                 });
 
             migrationBuilder.InsertData(

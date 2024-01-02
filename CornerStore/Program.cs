@@ -239,7 +239,9 @@ app.MapGet("/api/orders/{id}", (CornerStoreDbContext db, int id) => {
 
 // GET all orders - check for query string param 'orderDate' that only returns orders from a particulary day
 // if not present, return all orders
-
+app.MapGet("/api/order", (CornerStoreDbContext db, DateOnly? orderDate) => {
+    
+});
 
 // DELETE an order by Id
 
