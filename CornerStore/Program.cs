@@ -32,7 +32,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//endpoints go here
+//endpoints go here---------------------------------------------------------------------------
+
+
+
+
 
 app.Run();
 
