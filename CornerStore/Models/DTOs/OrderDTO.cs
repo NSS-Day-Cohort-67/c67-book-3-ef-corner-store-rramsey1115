@@ -6,7 +6,7 @@ public class OrderDTO
     public int Id { get; set; }
     public int CashierId { get; set; }
     public Cashier Cashier { get; set; }
-    public List<OrderProduct> OrderProducts { get; set; }
+    public List<OrderProductDTO> OrderProducts { get; set; }
     public decimal Total {
         get
         {

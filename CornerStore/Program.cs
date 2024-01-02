@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +37,57 @@ app.UseHttpsRedirection();
 // POST/add a cashier
 
 
-// GET a cashier - with orders and orders' products
+// GET a cashier by id - with orders and orders' products
+app.MapGet("/api/cashiers/{id}", (CornerStoreDbContext db, int id) =>
+{
+    try
+    {
+        var foundC = db.Cashiers
+        .Include(c => c.Orders).ThenInclude(o => o.OrderProducts).ThenInclude(op => op.Product).ThenInclude(p => p.Category)
+        .SingleOrDefault(c => c.Id == id);
 
+        if (foundC == null)
+        {
+            return Results.NotFound("No cashier with given id found");
+        }
+        return Results.Ok(new CashierDTO
+        {
+            Id = foundC.Id,
+            FirstName = foundC.FirstName,
+            LastName = foundC.LastName,
+            Orders = foundC.Orders.Select(order => new OrderDTO
+            {
+                Id = order.Id,
+                CashierId = order.CashierId,
+                PaidOnDate = order.PaidOnDate,
+                OrderProducts = order.OrderProducts.Select(op => new OrderProductDTO
+                {
+                    Id = op.Id,
+                    ProductId = op.ProductId,
+                    Product = new ProductDTO
+                    {
+                        Id = op.Product.Id,
+                        ProductName = op.Product.ProductName,
+                        Price = op.Product.Price,
+                        Brand = op.Product.Brand,
+                        CategoryId = op.Product.CategoryId,
+                        Category = new CategoryDTO
+                        {
+                            Id = op.Product.Category.Id,
+                            CategoryName = op.Product.Category.CategoryName
+                        }
+                    },
+                    OrderId = op.OrderId,
+                    Quantity = op.Quantity
+                }).ToList()
+            }).ToList()
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.NotFound($"Bad data. Found exception: {ex}");
+    }
+});
 
 
 

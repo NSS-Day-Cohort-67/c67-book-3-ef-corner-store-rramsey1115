@@ -11,5 +11,5 @@ public class CashierDTO
             return FirstName + " " + LastName;
         }
     }
-    public List<Order> Orders { get; set; }
+    public List<OrderDTO> Orders { get; set; }
 }
