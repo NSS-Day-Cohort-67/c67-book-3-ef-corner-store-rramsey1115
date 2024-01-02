@@ -302,7 +302,25 @@ app.MapGet("/api/orders", (CornerStoreDbContext db, DateTime? orderDate) => {
 });
 
 // DELETE an order by Id
+app.MapDelete("/api/orders/{id}", (CornerStoreDbContext db, int id) => {
+    try
+    {
+        var foundO = db.Orders.SingleOrDefault(o => o.Id == id);
 
+        if(foundO == null)
+        {
+            return Results.NotFound("No order with given param id");
+        }
+
+        db.Orders.Remove(foundO);
+        db.SaveChanges();
+        return Results.NoContent();
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data: {ex}");
+    }
+});
 
 // POST create an order (with products!)
 
