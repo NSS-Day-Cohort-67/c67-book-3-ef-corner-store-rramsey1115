@@ -182,10 +182,60 @@ app.MapPut("/api/products", (CornerStoreDbContext db, Product productObj) => {
 });
 
 
-
 // Orders ---------------------------------------------
 // GET order by Id - with cashier, orderProducts, products with category
+app.MapGet("/api/orders/{id}", (CornerStoreDbContext db, int id) => {
+    try
+    {
+        var foundO = db.Orders
+        .OrderBy(o => o.Id)
+        .Include(o => o.Cashier)
+        .Include(o => o.OrderProducts).ThenInclude(op => op.Product).ThenInclude(prod => prod.Category)
+        .SingleOrDefault(o => o.Id == id);
 
+        if (foundO == null)
+        {
+            return Results.NotFound("No order with matching id");
+        }
+
+        return Results.Ok(new OrderDTO
+        {
+            Id = foundO.Id,
+            CashierId = foundO.CashierId,
+            Cashier = new CashierDTO
+            {
+                Id = foundO.Cashier.Id,
+                FirstName = foundO.Cashier.FirstName,
+                LastName = foundO.Cashier.LastName
+            },
+            PaidOnDate = foundO.PaidOnDate,
+            OrderProducts = foundO.OrderProducts.Select(orderP => new OrderProductDTO
+            {
+                Id = orderP.Id,
+                ProductId = orderP.ProductId,
+                Product = new ProductDTO
+                {
+                    Id = orderP.Product.Id,
+                    ProductName = orderP.Product.ProductName,
+                    Price = orderP.Product.Price,
+                    Brand = orderP.Product.Brand,
+                    CategoryId = orderP.Product.CategoryId,
+                    Category = new CategoryDTO
+                    {
+                        Id = orderP.Product.Category.Id,
+                        CategoryName = orderP.Product.Category.CategoryName
+                    }
+                },
+                OrderId = orderP.OrderId,
+                Quantity = orderP.Quantity
+            }).ToList()
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Bad data: {ex}");
+    }
+});
 
 // GET all orders - check for query string param 'orderDate' that only returns orders from a particulary day
 // if not present, return all orders
