@@ -32,8 +32,33 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//endpoints go here---------------------------------------------------------------------------
+//---------------------------endpoints go here---------------------------------------------------------------------------
 
+// Cashiers ------------------------------------------
+// POST/add a cashier
+
+
+// GET a cashier - with orders and orders' products
+
+
+
+
+// Products -----------------------------------------
+// GET all products - with categories - if 'searc' query param is present, return only products whose names
+// include the 'search' value (ignore case)
+
+
+// POST/add a product
+
+
+// PUT/update a product
+
+
+// Orders ---------------------------------------------
+// GET order by ID - with cashier, orderProducts, products with category
+
+// GET all orders - check for query string param 'orderDate' taht only returns orders from a particulary day
+// if not present, return all orders
 
 
 

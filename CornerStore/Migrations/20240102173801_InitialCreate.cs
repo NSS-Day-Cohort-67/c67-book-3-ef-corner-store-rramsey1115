@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -42,7 +43,8 @@ namespace CornerStore.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CashierId = table.Column<int>(type: "integer", nullable: false)
+                    CashierId = table.Column<int>(type: "integer", nullable: false),
+                    PaidOnDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -125,19 +127,19 @@ namespace CornerStore.Migrations
 
             migrationBuilder.InsertData(
                 table: "Orders",
-                columns: new[] { "Id", "CashierId" },
+                columns: new[] { "Id", "CashierId", "PaidOnDate" },
                 values: new object[,]
                 {
-                    { 1, 1 },
-                    { 2, 2 },
-                    { 3, 1 },
-                    { 4, 1 },
-                    { 5, 1 },
-                    { 6, 2 },
-                    { 7, 2 },
-                    { 8, 2 },
-                    { 9, 1 },
-                    { 10, 2 }
+                    { 1, 1, new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 2, 2, new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 3, 1, new DateTime(2023, 11, 11, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 4, 1, new DateTime(2023, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 5, 1, new DateTime(2023, 11, 12, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 6, 2, new DateTime(2023, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 7, 2, new DateTime(2023, 11, 13, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 8, 2, new DateTime(2023, 11, 14, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 9, 1, new DateTime(2023, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified) },
+                    { 10, 2, new DateTime(2023, 11, 16, 0, 0, 0, 0, DateTimeKind.Unspecified) }
                 });
 
             migrationBuilder.InsertData(

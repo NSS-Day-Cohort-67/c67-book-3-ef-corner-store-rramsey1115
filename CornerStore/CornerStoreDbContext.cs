@@ -26,16 +26,16 @@ public class CornerStoreDbContext : DbContext
         // Orders
         modelBuilder.Entity<Order>().HasData(new Order[]
         {
-            new Order { Id = 1, CashierId = 1 },
-            new Order { Id = 2, CashierId = 2 },
-            new Order { Id = 3, CashierId = 1 },
-            new Order { Id = 4, CashierId = 1 },
-            new Order { Id = 5, CashierId = 1 },
-            new Order { Id = 6, CashierId = 2 },
-            new Order { Id = 7, CashierId = 2 },
-            new Order { Id = 8, CashierId = 2 },
-            new Order { Id = 9, CashierId = 1 },
-            new Order { Id = 10, CashierId = 2 }
+            new Order { Id = 1, CashierId = 1, PaidOnDate = new DateTime(2023, 11, 11) },
+            new Order { Id = 2, CashierId = 2, PaidOnDate = new DateTime(2023, 11, 11) },
+            new Order { Id = 3, CashierId = 1, PaidOnDate = new DateTime(2023, 11, 11) },
+            new Order { Id = 4, CashierId = 1, PaidOnDate = new DateTime(2023, 11, 12) },
+            new Order { Id = 5, CashierId = 1, PaidOnDate = new DateTime(2023, 11, 12) },
+            new Order { Id = 6, CashierId = 2, PaidOnDate = new DateTime(2023, 11, 13) },
+            new Order { Id = 7, CashierId = 2, PaidOnDate = new DateTime(2023, 11, 13) },
+            new Order { Id = 8, CashierId = 2, PaidOnDate = new DateTime(2023, 11, 14) },
+            new Order { Id = 9, CashierId = 1, PaidOnDate = new DateTime(2023, 11, 15) },
+            new Order { Id = 10, CashierId = 2, PaidOnDate = new DateTime(2023, 11, 16) }
         });
 
         // OrderProducts

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using CornerStore.Models;
 
 public class OrderDTO
@@ -14,4 +15,5 @@ public class OrderDTO
             return res != null && res.Any() ? res.Sum() : (decimal)0;
         }
     }
+    public DateTime? PaidOnDate { get; set; }
 }
