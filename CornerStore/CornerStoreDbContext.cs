@@ -41,25 +41,25 @@ public class CornerStoreDbContext : DbContext
         // OrderProducts
         modelBuilder.Entity<OrderProduct>().HasData(new OrderProduct[]
         {
-            new OrderProduct { ProductId = 1, OrderId = 1, Quantity = 2 },
-            new OrderProduct { ProductId = 2, OrderId = 1, Quantity = 1 },
-            new OrderProduct { ProductId = 3, OrderId = 1, Quantity = 2 },
-            new OrderProduct { ProductId = 6, OrderId = 2, Quantity = 1 },
-            new OrderProduct { ProductId = 4, OrderId = 2, Quantity = 1 },
-            new OrderProduct { ProductId = 5, OrderId = 2, Quantity = 1 },
-            new OrderProduct { ProductId = 4, OrderId = 3, Quantity = 2 },
-            new OrderProduct { ProductId = 2, OrderId = 4, Quantity = 3 },
-            new OrderProduct { ProductId = 5, OrderId = 5, Quantity = 2 },
-            new OrderProduct { ProductId = 2, OrderId = 5, Quantity = 1 },
-            new OrderProduct { ProductId = 6, OrderId = 6, Quantity = 1 },
-            new OrderProduct { ProductId = 1, OrderId = 7, Quantity = 1 },
-            new OrderProduct { ProductId = 3, OrderId = 7, Quantity = 3 },
-            new OrderProduct { ProductId = 4, OrderId = 7, Quantity = 2 },
-            new OrderProduct { ProductId = 5, OrderId = 8, Quantity = 2 },
-            new OrderProduct { ProductId = 3, OrderId = 9, Quantity = 1 },
-            new OrderProduct { ProductId = 4, OrderId = 9, Quantity = 1 },
-            new OrderProduct { ProductId = 6, OrderId = 10, Quantity = 2 },
-            new OrderProduct { ProductId = 3, OrderId = 10, Quantity = 3 }
+            new OrderProduct { Id = 1, ProductId = 1, OrderId = 1, Quantity = 2 },
+            new OrderProduct { Id = 2, ProductId = 2, OrderId = 1, Quantity = 1 },
+            new OrderProduct { Id = 3, ProductId = 3, OrderId = 1, Quantity = 2 },
+            new OrderProduct { Id = 4, ProductId = 6, OrderId = 2, Quantity = 1 },
+            new OrderProduct { Id = 5, ProductId = 4, OrderId = 2, Quantity = 1 },
+            new OrderProduct { Id = 6, ProductId = 5, OrderId = 2, Quantity = 1 },
+            new OrderProduct { Id = 7, ProductId = 4, OrderId = 3, Quantity = 2 },
+            new OrderProduct { Id = 8, ProductId = 2, OrderId = 4, Quantity = 3 },
+            new OrderProduct { Id = 9, ProductId = 5, OrderId = 5, Quantity = 2 },
+            new OrderProduct { Id = 10, ProductId = 2, OrderId = 5, Quantity = 1 },
+            new OrderProduct { Id = 11, ProductId = 6, OrderId = 6, Quantity = 1 },
+            new OrderProduct { Id = 12, ProductId = 1, OrderId = 7, Quantity = 1 },
+            new OrderProduct { Id = 13, ProductId = 3, OrderId = 7, Quantity = 3 },
+            new OrderProduct { Id = 14, ProductId = 4, OrderId = 7, Quantity = 2 },
+            new OrderProduct { Id = 15, ProductId = 5, OrderId = 8, Quantity = 2 },
+            new OrderProduct { Id = 16, ProductId = 3, OrderId = 9, Quantity = 1 },
+            new OrderProduct { Id = 17, ProductId = 4, OrderId = 9, Quantity = 1 },
+            new OrderProduct { Id = 18, ProductId = 6, OrderId = 10, Quantity = 2 },
+            new OrderProduct { Id = 19, ProductId = 3, OrderId = 10, Quantity = 3 }
         });
 
         // Products
