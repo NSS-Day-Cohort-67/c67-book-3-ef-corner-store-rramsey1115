@@ -181,7 +181,6 @@ app.MapPut("/api/products", (CornerStoreDbContext db, Product productObj) => {
     }
 });
 
-
 // Orders ---------------------------------------------
 // GET order by Id - with cashier, orderProducts, products with category
 app.MapGet("/api/orders/{id}", (CornerStoreDbContext db, int id) => {
